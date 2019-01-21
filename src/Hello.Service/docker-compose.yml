@@ -1,0 +1,13 @@
+# Docker compose to build and run the eureka service
+version: '3'
+services:
+  hello-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports: 
+      - "5000:5000"
+networks:
+  default:
+    external:
+      name: springboot

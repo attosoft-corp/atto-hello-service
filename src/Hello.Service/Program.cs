@@ -19,8 +19,7 @@ namespace Hello.Service
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                //.UseCloudFoundryHosting(5000)
-                //.AddCloudFoundry()
+                .UseUrls("http://*:5000")
                 .UseStartup<Startup>();
     }
 }
