@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Steeltoe.Discovery.Client;
+using Steeltoe.Extensions.Configuration.ConfigServer;
 
 namespace Hello.Service
 {
@@ -26,8 +27,13 @@ namespace Hello.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+             // Optional:  Adds IConfiguration and IConfigurationRoot to service container
+            services.AddConfiguration(Configuration);
+
             services.AddHttpClient();
+
             services.AddDiscoveryClient(Configuration);
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Steeltoe.Extensions.Configuration.ConfigServer;
 
 namespace Hello.Service
 {
@@ -19,7 +20,7 @@ namespace Hello.Service
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseUrls("http://*:5000")
+                .AddConfigServer()
                 .UseStartup<Startup>();
     }
 }
