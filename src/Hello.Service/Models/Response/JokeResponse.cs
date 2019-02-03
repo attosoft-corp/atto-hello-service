@@ -6,5 +6,7 @@ namespace Hello.Service.Models.Response
     {
         public string Type { get; set; } 
         public JokeData Value { get; set; }
+
+        public string MachineName { get; set; } 
     }
 }

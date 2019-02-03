@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Hello.Service.Models.Response;
@@ -27,6 +28,7 @@ namespace Hello.Service.Controllers
             {
                 var content = await response.Content.ReadAsStringAsync();
                 var jokeResponse = JsonConvert.DeserializeObject<JokeResponse>(content);
+                jokeResponse.MachineName = Environment.MachineName;
                 return jokeResponse;
             }
 
