@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +11,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using RawRabbit;
+using RawRabbit.Configuration;
+using RawRabbit.Enrichers.GlobalExecutionId;
+using RawRabbit.Instantiation;
 using Steeltoe.Discovery.Client;
 using Steeltoe.Extensions.Configuration.ConfigServer;
 
@@ -32,9 +37,20 @@ namespace Hello.Service
 
             services.AddHttpClient();
 
-            services.AddDiscoveryClient(Configuration);
+            //services.AddDiscoveryClient(Configuration);
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+
+            var client = RawRabbitFactory.CreateSingleton(new RawRabbitOptions
+            {
+                ClientConfiguration = Configuration.GetSection("RawRabbit").Get<RawRabbitConfiguration>(),
+                Plugins = p => p
+                    .UseGlobalExecutionId()
+            });
+
+            services.AddSingleton<IBusClient>(client);
+            services.AddSingleton<ReplayClass>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +68,8 @@ namespace Hello.Service
             
             app.UseHttpsRedirection();
             app.UseMvc();
-            app.UseDiscoveryClient();
+            //app.UseDiscoveryClient();
+            app.ApplicationServices.GetService<ReplayClass>();
         }
     }
 }
