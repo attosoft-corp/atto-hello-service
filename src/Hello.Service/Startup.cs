@@ -37,7 +37,7 @@ namespace Hello.Service
 
             services.AddHttpClient();
 
-            //services.AddDiscoveryClient(Configuration);
+            services.AddDiscoveryClient(Configuration);
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -68,7 +68,7 @@ namespace Hello.Service
             
             app.UseHttpsRedirection();
             app.UseMvc();
-            //app.UseDiscoveryClient();
+            app.UseDiscoveryClient();
             app.ApplicationServices.GetService<ReplayClass>();
         }
     }
