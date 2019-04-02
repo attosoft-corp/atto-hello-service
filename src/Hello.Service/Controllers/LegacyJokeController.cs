@@ -1,10 +1,10 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Hello.Service.Models.Response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Hello.Service.Controllers
 {
@@ -14,7 +14,6 @@ namespace Hello.Service.Controllers
         private readonly HttpClient _httpClient;
         private readonly ILogger<LegacyJokeController> _logger;
 
-
         public LegacyJokeController(IHttpClientFactory httpClientFactory, ILogger<LegacyJokeController> logger)
         {
             _logger = logger;
@@ -22,18 +21,17 @@ namespace Hello.Service.Controllers
         }
 
         public async Task<ActionResult<JokeResponse>> GetJokeAsync()
+
         {
             var response = await _httpClient.GetAsync("https://api.icndb.com/jokes/random");
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
                 var jokeResponse = JsonConvert.DeserializeObject<JokeResponse>(content);
-                jokeResponse.MachineName = Environment.MachineName;
                 return jokeResponse;
             }
 
-            throw new System.Exception("erro requesting the joke");
+            throw new Exception("erro requesting the joke");
         }
-
     }
 }
